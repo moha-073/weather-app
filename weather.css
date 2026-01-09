@@ -1,0 +1,173 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, "Poppins", sans-serif;
+  
+}
+
+body{
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(#0c4387, #118209);
+
+}
+
+h1{
+  text-align: center;
+  font-size: 36px;
+  color: greenyellow;
+  margin-top: 55px;
+}
+
+.container{
+
+  margin: 10px auto 60px;
+  background-color: #118209;
+  width: 400px;
+  padding: 20px;
+  -o-border-radius: 24px;
+  -webkit-border-radius: 24px;
+  -moz-border-radius: 24px;
+  -ms-border-radius: 24px;
+  border-radius: 30px;
+  border: none;
+}
+.search-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.search-container input{
+  font-size: 18px;
+  padding: 10px;
+  -o-border-radius: 16px;
+  -webkit-border-radius: 16px;
+  -moz-border-radius: 16px;
+  -ms-border-radius: 16px;
+  border-radius: 16px;
+  border: none;
+  flex: 1;
+  outline: none;
+}
+
+.search-container button{
+  background-color: #fff;
+  border: none;
+  cursor: pointer;
+  margin-left: 10px;
+  -o-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  border-radius: 50%;
+  padding: 10px;
+}
+
+.search-container button img{
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+}
+
+.weather-info{
+  
+  text-align: center;
+  color: #fff;
+  margin-top: 20px;
+}
+.weather-info .weather-image-icon{
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+}
+
+.weather-image-icon img{
+  width: 100px;
+  height: 100px;
+}
+
+.temperature{
+  font-size: 30px;
+  margin-top: 10px;
+  font-weight: bold;
+
+}
+.city-name{
+  font-size: 16px;
+  margin-top: 5px;
+}
+
+.weather-values{
+  display: flex;
+  align-content: center;
+  margin-top: 15px;
+  width:100%;
+  height: 100px;
+  
+}
+.description{
+  font-size: 14px;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+  
+  width: 88px;
+}
+.description img{
+  width: 40px;
+  height: 40px;
+  margin-right: 5px;
+}
+.description .humidity-value{
+  font-size: 20px;
+}
+.humidity{
+
+  font-size: 16px;
+  margin-left: -42px;
+  width: 63px;
+  height: 30px;
+  margin-top: 68px;
+
+}
+.additional-info{
+
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  width: 100px;
+  margin-left:  100px;
+  margin-top: 28px;
+  height: 40px;
+
+}
+
+.additional-info img{
+  width: 40px;
+  height: 40px;
+  margin-right: 5px;
+}
+.additional-info .wind-value{
+  font-size: 20px;
+
+}
+.wind-speed{
+  font-size: 16px;
+  margin-left: -55px;
+}
+
+.weather{
+  display: none;
+}
+
+.error{
+  display: none;
+  text-align: left;
+  color: white;
+  font-size: 18px;
+  margin-top: 20px;
+}
