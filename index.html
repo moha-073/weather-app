@@ -7,44 +7,61 @@
     <link rel="stylesheet" href="weather.css">
 </head>
 <body>
+    <main class="container">
+        <div class="weather-card" id="weatherCard">
+            <header class="app-header">
+                <h1>Weather App</h1>
+                <p>Check the current weather anywhere</p>
+            </header>
+            <form  class="search-container">
+                <input type="text"
+                    placeholder="Search for a city"
+                    aria-label="City name"
+                >
+                <button type="submit" title="Search"
+                >
+                <img src="weather-images/search-interface-symbol.png" alt="Search" class="search-icon">
+                </button>
+            </form>
+            <div class="error">
+                <p>City not found. Please try again.</p>
+            </div>
+            <section class="weather">
+                <div class="weather-main">
+                    <div class="weather-image-icon">
+                        <img src="weather-images/cloudy.png" alt="Weather condition" class="weather-icon">
+                    </div>
+                    <div class="temperature"></div>
+                    <div class="city-name"></div>
+                    <div class="weather-description"></div>
+                    <div class="local-time">
+                        <span class="time-label">Local Time</span>
+                        <span class="time-value"></span>
+                    </div>
+                </div>
+                <div class="weather-values">
+                    <div class="weather-detail">
+                        <img src="weather-images/weather.png" alt="Humidity">
+                        <div>
+                            <span class="detail-value humidity-value"></span>
+                            <span class="detail-label">Humidity</span>
+                        </div>
+                    </div>
+
+                    <div class="weather-detail">
+                        <img src="weather-images/wind.png" alt="Wind speed">
+                        <div>
+                            <span class="detail-value wind-value"></span>
+                            <span class="detail-label">Wind Speed</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </main>
     
-    <h1>Weather App</h1>
 
-    <div class="container">
-    <div class="search-container">
-        <input type="text" placeholder="Enter a city name">
-        <button type="submit" title="Search"><img src="weather-images/search-interface-symbol.png" class="search-icon" alt="search-icon"></button>
-    </div>
-    <div class="error">
-        <p>Invalid city name</p>
-    </div>
-
-    <div class="weather-info weather">
-        <div class="weather-image-icon">
-            <img src="weather-images/cloudy.png" class="image-icon weather-icon" alt="cloudy">
-        </div>
-        
-        <div class="temperature"></div>
-        <div class="city-name"></div>
-
-        <div class="weather-values">
-<div class="description">
-            <img src="weather-images/weather.png" alt="humidity">
-            <p class="humidity-value"></p></div>
-            <p class="humidity">
-                Humidity
-            </p>
-        
-        <div class="additional-info">
-            <img src="weather-images/wind.png" alt="wind">
-            <p class="wind-value"></p>
-            <p class="humidity wind-speed">Wind Speed</p>
-    </div>
-        </div>
-        
-    </div>
-
-
-    <script src="weather.js"></script>
+    <script type="module" src="weather.js"></script>
 </body>
 </html>

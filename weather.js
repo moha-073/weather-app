@@ -1,45 +1,173 @@
-const apiKey = "213ab788b7d0ed1384ab124025d9fd16";
+import apiKey  from "./api/apiKey.js";
+
 const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
 
+
+// Elements
+const searchForm = document.querySelector(".search-container");
 const searchBox = document.querySelector(".search-container input");
 const searchBtn = document.querySelector(".search-container button");
 const weather = document.querySelector(".weather");
+const error = document.querySelector(".error");
+const weatherCard = document.querySelector(".weather-card");
 
+const cityName = document.querySelector(".city-name");
+const temperature = document.querySelector(".temperature");
+const humidity = document.querySelector(".humidity-value");
+const windSpeed = document.querySelector(".wind-value");
+
+const weatherIcon = document.querySelector(".weather-icon");
+const weatherDescription = document.querySelector(".weather-description");
+
+const localTime = document.querySelector(".time-value");
+
+//FETCH WEATHER
 
 async function fetchWeather(city) {
-  const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
-
-  if(response.status == 404){
-    document.querySelector(".error").style.display = "block";
-    weather.style.display = "none";
-  }else{
-    var data = await response.json();
-  
-  document.querySelector(".city-name").innerHTML = data.name;
-  document.querySelector(".temperature").innerHTML = Math.round(data.main.temp) + "°C";
-  document.querySelector(".humidity-value").innerHTML = data.main.humidity + "%";
-  document.querySelector(".wind-value").innerHTML = data.wind.speed + " km/h";
-
-  if(data.weather[0].main == "Clouds") {
-    document.querySelector(".weather-icon").src = "weather-images/cloudy.png";
-  }if(data.weather[0].main == "Clear") {
-    document.querySelector(".weather-icon").src = "weather-images/sun.png";
-  }if(data.weather[0].main == "Rain") {
-    document.querySelector(".weather-icon").src = "weather-images/rain.png";
-  }if(data.weather[0].main == "Drizzle") {
-    document.querySelector(".weather-icon").src = "weather-images/windy.png";
+  if(!city.trim()) {
+    showError("Please enter a city name.");
+    return;
   }
 
-weather.style.display = "block";
-document.querySelector(".error").style.display = "none";
+  // Loading state 
+  searchForm.classList.add("loading");
+  hideError();
+
+  try {
+    const response = await fetch(
+  apiUrl + encodeURIComponent(city.trim()) + `&appid=${apiKey}`
+);
+
+    if (!response.ok) {
+      throw new Error("City not found");
+    }
+
+    const data = await response.json();
+
+    displayWeather(data);
+  } catch (error) {
+    showError("City not found. Please try again.")
+  } finally {
+    searchForm.classList.remove("loading");
   }
-  
+};
+
+// DISPLAY WEATHER
+
+function displayWeather(data) {
+  const condition = data.weather[0].main;
+  cityName.textContent = data.name;
+  temperature.textContent = `${Math.round(data.main.temp)}°C`;
+
+  humidity.textContent = `${data.main.humidity}%`;
+
+  windSpeed.textContent = `${Math.round(data.wind.speed * 3.6)} km/h`;
+  weatherDescription.textContent = data.weather[0].description;
+  updateLocalTime(data.timezone);
+
+  // Change weather icon
+  updateWeatherIcon(condition);
+
+  // Change card theme
+  updateWeatherTheme(condition);
+
+  //Show weather section
+  weather.classList.remove("show");
+
+  // Force animation restart
+
+  void weather.offsetWidth;
+  weather.classList.add("show");
+  weather.style.display = "block";
 
 }
 
-searchBtn.addEventListener("click", () => {
+// Weather Icon
+
+function updateWeatherIcon(condition) {
+  const weatherIcons = {
+    Clear: "weather-images/sun.png",
+    Clouds: "weather-images/cloudy.png",
+    Rain: "weather-images/rain.png",
+    Drizzle: "weather-images/windy.png",
+    Snow: "weather-images/snow.jpg",
+    Thunderstorm: "weather-images/thunderstorm.jpg"
+  };
+  weatherIcon.src = 
+  weatherIcons[condition] || "weather-images/cloudy.png";
+
+  weatherIcon.alt = `${condition} weather`;
+}
+
+// WEATHER CARD THEME
+
+function updateWeatherTheme(condition) {
+  // Remove previous weather classes
+
+  weatherCard.classList.remove(
+    "clear",
+    "clouds",
+    "rain",
+    "drizzle",
+    "snow",
+    "thunderstorm"
+  );
+
+  //Add new class
+
+  const themes = {
+    Clear: "clear",
+    Clouds: "clouds",
+    Rain: "rain",
+    Drizzle: "drizzle",
+    Snow: "snow",
+    Thunderstorm: "thunderstorm"
+
+  };
+  weatherCard.classList.add(
+    themes[condition] || "clouds"
+  );
+}
+// LOCAL TIME
+function updateLocalTime(timezone){
+  const now = new Date();
+
+  // Get current UTC time
+  const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
+
+  // Apply the city's timezone offset
+  const localTimeValue = new Date(utcTime + (timezone * 1000));
+
+
+  localTime.textContent = localTimeValue.toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true
+  });
+}
+
+// ERROR
+
+function showError(message) {
+  error.querySelector("p").textContent = message;
+  error.classList.remove("show");
+
+  // Restart animation
+  void error.offsetWidth;
+  error.classList.add("show");
+  weather.classList.remove("show");
+  weather.style.display = "none";
+}
+
+function hideError() {
+  error.classList.remove("show");
+}
+
+
+// Search
+
+searchForm.addEventListener("submit", (event) => {
+  event.preventDefault();
   fetchWeather(searchBox.value);
-
-  searchBox.value = "";
-});
-
+  searchBox.value = ""
+})
